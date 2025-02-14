@@ -25,7 +25,6 @@ const driverSchema = new mongoose.Schema({
   contactNumber: {
     type: String,
     required: true,
-    unique: true
   },
   email: {
     type: String,
@@ -52,6 +51,7 @@ const driverSchema = new mongoose.Schema({
       enum: ['AADHAAR', 'PAN', 'MEDICAL_CERTIFICATE']
     },
     documentNumber: String,
+    fileUrl: String,
     expiryDate: Date
   }],
   createdAt: {
@@ -77,4 +77,4 @@ driverSchema.pre('save', function(next) {
   next();
 });
 
-module.exports = mongoose.model('Driver', driverSchema);
+export const Driver = mongoose.model('Driver', driverSchema);

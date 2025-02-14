@@ -8,9 +8,9 @@ const documentSchema = new mongoose.Schema({
     required: true
   },
   documentNumber: String,
+  fileUrl: String,
   expiryDate: {
     type: Date,
-    required: true
   },
   verified: {
     type: Boolean,
@@ -23,7 +23,6 @@ const vehicleSchema = new mongoose.Schema({
   registrationNumber: {
     type: String,
     required: true,
-    unique: true
   },
   model: {
     type: String,
