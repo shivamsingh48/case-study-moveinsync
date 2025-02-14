@@ -27,9 +27,13 @@ const vendorSchema = new mongoose.Schema({
   permissions: [
     { type: String }
     ],
-  delegatedPermissions: [
-    { type: String }
-    ],
+  delegatedPermissions: [{
+    permission: String,       // e.g., "driver:create"
+      delegatedBy: {          // Who granted this permission
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Vendor'
+      }
+  }],
   createdAt: { 
     type: Date, 
     default: Date.now 
@@ -64,20 +68,18 @@ vendorSchema.pre('save', function(next) {
 });
 
 //Used pre hook for actomatically encrpt password before saving in database
-vendorSchema.pre("save",async function(next){
-    const salt=await bcrypt.genSalt();
-    this.password=await bcrypt.hash(this.password,salt);
-    next()
-})
-
+vendorSchema.pre('save', async function(next) {
+  if (this.isModified('password')) { 
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
 
 //Decalred method to check passord to encrpted password
 vendorSchema.methods.isPasswordCheck=async function(password){
   console.log(this.password);
     return await bcrypt.compare(password,this.password)
 }
-
-
 
 
 vendorSchema.methods.getDefaultPermissions = function () {

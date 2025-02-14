@@ -1,4 +1,5 @@
 import { Vendor } from "../models/vendor.model.js";
+import { ApiError } from "../utils/ApiError.js";
 
 const checkPermissions = (requiredPermission) => {
     return async (req, res, next) => {
@@ -8,7 +9,9 @@ const checkPermissions = (requiredPermission) => {
   
         const hasAccess = vendor.permissions.includes('*') ||
         vendor.permissions.includes(requiredPermission) ||
-        vendor.delegatedPermissions.includes(requiredPermission);
+        vendor.delegatedPermissions.some(dp => 
+          dp.permission === requiredPermission
+        );
   
         if (!hasAccess) {
           return next(new ApiError(403, 'Insufficient permissions'));
@@ -21,4 +24,4 @@ const checkPermissions = (requiredPermission) => {
     };
 };
   
-export default {checkPermissions}
+export {checkPermissions}

@@ -16,7 +16,10 @@ export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     
     const vendor = await Vendor.findOne({ email })
-    if (!vendor || !(await vendor.isPasswordCheck(password))) {
+
+    const checkPassword=await vendor.isPasswordCheck(password);
+    
+    if (!vendor || !checkPassword) {
       throw new ApiError(401, 'Invalid credentials');
     }
   
