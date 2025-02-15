@@ -46,3 +46,19 @@ export const login = asyncHandler(async (req, res) => {
         message:"Login successfully"
     })
 });
+
+export const logout = asyncHandler(async (req, res) => {
+  
+  const vendorId=req.vendor?._id
+
+  const vendor =await Vendor.findById(vendorId)
+
+  if(!vendor) throw new ApiError(404,"No vendor found")
+
+  res.status(200)
+  .clearCookie("accessToken",{secure:true,sameSite:"None"})
+  .json({
+      success:true,
+      message:"Logged out successfully"
+  })
+});

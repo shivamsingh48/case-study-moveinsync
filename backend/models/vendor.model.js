@@ -32,17 +32,13 @@ const vendorSchema = new mongoose.Schema({
       delegatedBy: {          // Who granted this permission
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Vendor'
-      }
+    }
   }],
   createdAt: { 
     type: Date, 
     default: Date.now 
     }
-},{
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
-);
+})
 
 // Pre-save hook for default permissions
 vendorSchema.pre('save', function(next) {
@@ -52,7 +48,7 @@ vendorSchema.pre('save', function(next) {
   next();
 });
 
-// In Vendor model pre-save hook
+//pre hook check if super vendor has any parent
 vendorSchema.pre('save', function(next) {
   if (this.role === 'SUPER' && this.parent) {
     return next(new Error('Super vendor cannot have parent'));
@@ -70,7 +66,6 @@ vendorSchema.pre('save', async function(next) {
 
 //Decalred method to check passord to encrpted password
 vendorSchema.methods.isPasswordCheck=async function(password){
-  console.log(this.password);
     return await bcrypt.compare(password,this.password)
 }
 
