@@ -28,7 +28,6 @@ const driverSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true
   },
   vendor: {
     type: mongoose.Schema.Types.ObjectId,
@@ -59,10 +58,6 @@ const driverSchema = new mongoose.Schema({
     default: Date.now
   }
 });
-
-// Indexes for common queries
-driverSchema.index({ vendor: 1, status: 1 });
-driverSchema.index({ contactNumber: 1 }, { unique: true });
 
 // Custom method to check license validity
 driverSchema.methods.isLicenseValid = function() {

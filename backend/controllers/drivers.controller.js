@@ -10,6 +10,7 @@ export const createDriver = asyncHandler(async (req, res) => {
   const {
     fullName,
     contactNumber,
+    email,
     licenseNumber,
     licenseExpiry,
     aadhaarNumber,
@@ -76,6 +77,7 @@ export const createDriver = asyncHandler(async (req, res) => {
   const driver = await Driver.create({
     fullName,
     contactNumber,
+    email,
     license: {
       licenseNumber,
       expiryDate: licenseExpiry
@@ -90,6 +92,7 @@ export const createDriver = asyncHandler(async (req, res) => {
     driver:{
       fullName,
       contactNumber,
+      email,
       licenseNumber,
       licenseExpiry
     },
