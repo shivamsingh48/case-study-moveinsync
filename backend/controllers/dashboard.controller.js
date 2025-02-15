@@ -18,11 +18,11 @@ export const getDashboardData = asyncHandler(async (req, res) => {
     { $match: { _id: superVendor._id } },
     {
       $graphLookup: {
-        from: 'vendors',         // The collection name for vendors. 
-        startWith: '$_id',        // Begin with the Super Vendor's _id
-        connectFromField: '_id', // Link from the parent's _id
-        connectToField: 'parent',// to the child's 'parent' field
-        as: 'descendants'        // Store the results in a field called 'descendants'
+        from: 'vendors',            // The collection name for vendors. 
+        startWith: '$_id',          // Begin with the Super Vendor's _id
+        connectFromField: '_id',    // Link from the parent's _id
+        connectToField: 'parent',   // to the child's 'parent' field
+        as: 'descendants'           // Store the results in a field called 'descendants'
       }
     }
   ]);
@@ -48,16 +48,20 @@ export const getDashboardData = asyncHandler(async (req, res) => {
   const availableDriversCount = drivers.filter(driver => driver.status === 'AVAILABLE').length;
 
   res.status(200).json({
-    superVendor,
-    allVendors: descendantVendors, // All levels of sub-vendors
-    fleetStatus: {
-      activeVehiclesCount,
-      inactiveVehiclesCount,
-      pendingVerifications
+    success:true,
+    dashboard:{
+        superVendor,
+        allVendors: descendantVendors, 
+        fleetStatus: {
+        activeVehiclesCount,
+        inactiveVehiclesCount,
+        pendingVerifications
+        },
+        driverStatus: {
+        availableDriversCount
+        }
     },
-    driverStatus: {
-      availableDriversCount
-    }
+    message:"Fetched dashboard successfully"
   });
 });
 

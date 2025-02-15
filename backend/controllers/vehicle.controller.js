@@ -8,18 +8,13 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js';
 export const createVehicle = asyncHandler(async (req, res) => {
     const { registrationNumber, model, seatingCapacity, fuelType,rcNumber, rcExpiry,pollutionNumber,pollutionExpiry} = req.body;
   
-
     const rcLocalPath=req.files?.rc[0]?.path
     const pollutionLocalPath=req.files?.pollution[0]?.path
 
     let permitLocalPath
     if(req.files && Array.isArray(req.files.permit) && req.files.permit.length>0){
         permitLocalPath=req.files.permit[0].path
-    }
-
-    // console.log(permitLocalPath);
-    
-    
+    } 
 
     if(!rcLocalPath || !pollutionLocalPath)
         throw new ApiError(400, 'RC and Pollution Certificate are required')
@@ -48,22 +43,35 @@ export const createVehicle = asyncHandler(async (req, res) => {
           expiryDate: pollutionExpiry,
           fileUrl: pollution?.url||""
         },
-        {
-          type: 'PERMIT',
-          documentNumber: req.body.permitNumber,
-          expiryDate: req.body.permitExpiry,
-          fileUrl: permit?.url || "" 
-        }
+        
       ]
     });
   
-    // Add optional permit document if provided
     if (req.files['permit']) {
       vehicle.documents.push({
-        
+          type: 'PERMIT',
+          documentNumber: req.body.permitNumber,
+          expiryDate: req.body.permitExpiry,
+          fileUrl: permit?.url || ""
       });
       await vehicle.save();
     }
   
-    res.status(201).json(vehicle);
+    res.status(201)
+    .json({
+      success:true,
+      vehicle:{
+        registrationNumber,
+        model,
+        seatingCapacity,
+        fuelType,
+        rc:rc.url,
+        rcNumber,
+        rcExpiry,
+        pollution:pollution.url,
+        pollutionNumber,
+        pollutionExpiry
+      },
+      message:"Vehicle created successfully"
+    })
   });

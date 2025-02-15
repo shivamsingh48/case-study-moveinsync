@@ -14,6 +14,9 @@ export const generateAuthToken = (vendor) => {
   // Login endpoint
 export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
+
+    if(!email || !password)
+      throw new ApiError(400,"All fields are required")
     
     const vendor = await Vendor.findOne({ email })
 

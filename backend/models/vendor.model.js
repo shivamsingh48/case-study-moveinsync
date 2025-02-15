@@ -44,13 +44,6 @@ const vendorSchema = new mongoose.Schema({
   }
 );
 
-// Add hierarchy virtuals
-vendorSchema.virtual('subvendors', {
-  ref: 'Vendor',               // Reference to the Vendor model
-  localField: '_id',           // Local field (parent's `_id`)
-  foreignField: 'parent'       // Field in the child referencing the parent
-});
-
 // Pre-save hook for default permissions
 vendorSchema.pre('save', function(next) {
   if (!this.permissions || this.permissions.length === 0) {

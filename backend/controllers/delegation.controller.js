@@ -17,7 +17,12 @@ export const delegate = asyncHandler(async (req,res)=>{
 
     if(!subVendor) throw new ApiError(500,"Internal server error")
 
-    res.status(200).json({success:true,subVendor});
+    res.status(200)
+    .json({
+      success:true,
+      permissions,
+      message:"delegated permmissions successfully"
+    });
 })
 
 export const revoke = asyncHandler(async(req,res)=>{
@@ -35,5 +40,10 @@ export const revoke = asyncHandler(async(req,res)=>{
 
     if(!subVendor) throw new ApiError(500,"Internal server error")
 
-    res.status(200).json({success:true,subVendor});
+    res.status(200).
+    json({
+      success:true,
+      revokedPermissions:permissions,
+      message:"revoked permissions successfully"
+    });
 })

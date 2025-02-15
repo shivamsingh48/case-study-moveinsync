@@ -84,7 +84,17 @@ export const createDriver = asyncHandler(async (req, res) => {
     documents
   });
 
-  res.status(201).json(driver);
+  res.status(201)
+  .json({
+    success:true,
+    driver:{
+      fullName,
+      contactNumber,
+      licenseNumber,
+      licenseExpiry
+    },
+    message:"Driver created successfully"
+  })
 });
 
 
@@ -102,11 +112,12 @@ export const assignVehicleToDriver = asyncHandler(async (req, res) => {
     const driver = await Driver.findOne({
       _id: driverId,
       vendor: req.vendor._id
-    });
+    })
+    
     const vehicle = await Vehicle.findOne({
       _id: vehicleId,
       vendor: req.vendor._id
-    });
+    })
   
     if (!driver || !vehicle) {
       throw new ApiError(404, 'Driver or Vehicle not found');

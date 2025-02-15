@@ -8,7 +8,7 @@ export const auth = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.ACCESSTOKEN_SECRET);
 
-    if(!token) throw new ApiError(500,"Internal server error");
+    if(!decoded) throw new ApiError(500,"Internal server error");
 
     // Find vendor and attach to request
     req.vendor = await Vendor.findOne({

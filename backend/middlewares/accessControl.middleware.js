@@ -6,7 +6,9 @@ const checkPermissions = (requiredPermission) => {
       try {
         const vendor = await Vendor.findById(req.vendor.id)
           .select('+permissions +delegatedPermissions');
-  
+        
+        if(!vendor) next(new ApiError(404,"Vendor not found"))
+
         const hasAccess = vendor.permissions.includes('*') ||
         vendor.permissions.includes(requiredPermission) ||
         vendor.delegatedPermissions.some(dp => 

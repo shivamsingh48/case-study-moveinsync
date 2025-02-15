@@ -25,15 +25,11 @@ export const createVendor=asyncHandler(async(req,res)=>{
       
       res.status(201).json({
         status: 'success',
-        vendor:vendorData,
+        vendor:{
+          email,
+          name,
+          role
+        },
         message:"Successfully creating vendor"
       })
-})
-
-export const getVendorHeirarchy=asyncHandler(async(req,res)=>{
-    const hierarchy=await vendorHierarchy.getVendorHeirarchy(req.vendor._id);
-
-    if(!hierarchy){
-        throw new ApiError(400,"Error while fetching hierarchy")
-    }
 })

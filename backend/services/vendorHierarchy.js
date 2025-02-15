@@ -30,7 +30,7 @@ class VendorHierarchy {
       parent: parentId,
     });
 
-    return vendor.save();
+    return await vendor.save();
   }
 
    async getHierarchy(vendorId) {
@@ -54,11 +54,6 @@ class VendorHierarchy {
     }
     
     return depth;
-  }
-
-  async checkPermissions(vendorId, requiredPermission) {
-    const vendor = await Vendor.findById(vendorId);
-    return vendor.hasPermission(requiredPermission);
   }
 
 }
