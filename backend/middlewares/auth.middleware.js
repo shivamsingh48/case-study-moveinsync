@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken'
 import { ApiError } from '../utils/ApiError.js';
 import { Vendor } from '../models/vendor.model.js';
+import {asyncHandler} from '../utils/asynchandler.js'
 
-export const auth = async (req, res, next) => {
-    const token = req.cookies.accessToken || req.header('Authorization').replace('Bearer ', '');
+export const auth = asyncHandler(async (req, res, next) => {
+    const token = req.cookies.accessToken;
     if(!token) throw new ApiError(401,"Invalid authorization")
 
     const decoded = jwt.verify(token, process.env.ACCESSTOKEN_SECRET);
@@ -16,4 +17,4 @@ export const auth = async (req, res, next) => {
     });
 
     next();
-};
+})

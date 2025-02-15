@@ -19,7 +19,7 @@ try {
 } catch (error) {
   console.log("Error checking document expiry:", error);
 }
-};
+}
 
 // Run daily at midnight
 cron.schedule('0 0 * * *', checkDocumentExpiry);

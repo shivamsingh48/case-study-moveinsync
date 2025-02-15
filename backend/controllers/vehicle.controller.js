@@ -8,8 +8,8 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js';
 export const createVehicle = asyncHandler(async (req, res) => {
     const { registrationNumber, model, seatingCapacity, fuelType,rcNumber, rcExpiry,pollutionNumber,pollutionExpiry} = req.body;
   
-    const rcLocalPath=req.files?.rc[0]?.path
-    const pollutionLocalPath=req.files?.pollution[0]?.path
+    const rcLocalPath=req.files?.rc?.[0]?.path
+    const pollutionLocalPath=req.files?.pollution?.[0]?.path
 
     let permitLocalPath
     if(req.files && Array.isArray(req.files.permit) && req.files.permit.length>0){

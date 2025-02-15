@@ -21,11 +21,14 @@ import seedRouter from './routes/seed.routes.js'
 import { delegationRouter } from './routes/delegation.routes.js';
 import fleetRouter from './routes/fleet.routes.js'
 import superVendorRouter from './routes/superVendor.routes.js'
+import { errorHandler } from './middlewares/error.middleware.js';
 
 app.use('/api/v1/seed',seedRouter)
 app.use('/api/v1/vendor',vendorRouter)
 app.use('/api/v1/delegation',delegationRouter)
 app.use('/api/v1/fleet',fleetRouter)
 app.use('/api/v1/super-vendor',superVendorRouter)
+
+app.use(errorHandler)
 
 export {app};

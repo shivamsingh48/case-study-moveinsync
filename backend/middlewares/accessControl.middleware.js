@@ -16,7 +16,7 @@ const checkPermissions = (requiredPermission) => {
         );
   
         if (!hasAccess) {
-          return next(new ApiError(403, 'Insufficient permissions'));
+          return next(new ApiError(403, `Insufficient permissions | ${requiredPermission} permission is required`));
         }
   
         next();

@@ -26,6 +26,7 @@ class DelegationService {
     }
   
     async revokePermissions(superVendorId, subVendorId, permissions) {
+      const superVendor = await Vendor.findById(superVendorId);
       const subVendor = await Vendor.findById(subVendorId);
 
       if(!subVendor)
