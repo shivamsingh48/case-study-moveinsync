@@ -33,17 +33,6 @@ class VendorHierarchy {
     return await vendor.save();
   }
 
-   async getHierarchy(vendorId) {
-    const buildTree = async (vendorId) => {
-        const vendor = await Vendor.findById(vendorId).lean();
-        const children = await Vendor.find({ parent: vendorId });
-        vendor.children = await Promise.all(children.map(c => buildTree(c._id)));
-        return vendor;
-    };
-
-    return buildTree(vendorId);
-  }
-
   async getHierarchyDepth(vendorId) {
     let depth = 0;
     let current = await Vendor.findById(vendorId);
