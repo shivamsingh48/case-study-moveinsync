@@ -53,5 +53,5 @@ This project is designed to streamline fleet management and vendor operations by
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/vendor-cab-driver-onboarding.git
-   cd vendor-cab-driver-onboarding
+   git clone https://github.com/shivamsingh48/case-study-moveinsync.git
+   cd case-study-moveinsync
